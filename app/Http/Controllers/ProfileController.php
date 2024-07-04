@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Adresse;
 use Illuminate\Support\Facades\Storage; // Ajoutez cette ligne
 
 class ProfileController extends Controller
@@ -21,7 +23,19 @@ class ProfileController extends Controller
             'user' => $request->user(),
         ]);
     }
+    
+    public function listeUsers(Request $request)
+{
+    // Récupérer les utilisateurs dont l'adresse est 'Adresse par défaut'
+    $users = User::join('adresses', 'users.id', '=', 'adresses.user_id')
+                    ->where('adresses.nom_adresse', 'Adresse par défaut')
+                    ->get();
 
+    // Retourner la vue 'profile.listeUsers' en passant les utilisateurs récupérés
+    return view('profile.listeUsers', [
+        'users' => $users,
+    ]);
+}
     /**
      * Update the user's profile information.
      */
@@ -115,5 +129,16 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+
+    public function supprimer(Request $request, $id)
+    {
+        // Supprimer l'utilisateur avec l'ID donné
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        // Rediriger vers une autre page ou afficher un message de succès
+        return redirect()->route('profile.listeUsers')->with('success', 'Utilisateur supprimé avec succès.');
     }
 }

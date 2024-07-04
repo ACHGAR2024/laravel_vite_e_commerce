@@ -6,6 +6,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdresseController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ProduitController;
+use App\Http\Controllers\PhotoController;
 
 Route::get('/', function () {
     return view('home');
@@ -34,9 +37,13 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['au
 // Routes des adresses (utilisation de Route::resource pour générer les routes CRUD)
 Route::resource('adresses', AdresseController::class);
 
+Route::resource('categories', CategorieController::class);
 
+Route::resource('produits', ProduitController::class);
 
-
+Route::get('produits/{produit}/photos', [PhotoController::class, 'index'])->name('photos.index');
+Route::post('produits/{produit}/photos', [PhotoController::class, 'store'])->name('photos.store');
+Route::delete('produits/{produit}/photos/{photo}', [PhotoController::class, 'destroy'])->name('photos.destroy');
 
 
 Route::middleware('auth')->group(function () {
@@ -46,6 +53,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::patch('/profile/updateInfo', [ProfileController::class, 'updateInfo'])->name('profile.updateInfo');
     Route::patch('/profile/imageUpdate', [ProfileController::class, 'imageUpdate'])->name('profile.imageUpdate');
+    Route::get('/profile/listeUsers', [ProfileController::class, 'listeUsers'])->name('profile.listeUsers');
+    Route::delete('/profile/supprimer/{id}', [ProfileController::class, 'supprimer'])->name('profile.supprimer');
+ // le middleware 'admin' est appliqué ici si nécessaire
+
 
    
 
