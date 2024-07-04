@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\PromoController;
 
 Route::get('/', function () {
     return view('home');
@@ -45,6 +46,7 @@ Route::get('produits/{produit}/photos', [PhotoController::class, 'index'])->name
 Route::post('produits/{produit}/photos', [PhotoController::class, 'store'])->name('photos.store');
 Route::delete('produits/{produit}/photos/{photo}', [PhotoController::class, 'destroy'])->name('photos.destroy');
 
+Route::resource('promos', PromoController::class);
 
 Route::middleware('auth')->group(function () {
 
