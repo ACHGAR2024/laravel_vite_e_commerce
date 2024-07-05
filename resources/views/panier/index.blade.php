@@ -1,8 +1,6 @@
 <!-- resources/views/cart/show.blade.php -->
 
-@extends('layouts.app')
-
-@section('content')
+@include('components.frontend.haut')
 <div class="mx-24 my-5 bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6 text-gray-800 dark:text-gray-200">
     <div class="flex flex-col gap-6 items-center">
         
@@ -54,13 +52,10 @@
                     <p class="font-semibold">Frais de Livraison :</p>
                     <p class="font-bold">OFFERT</p>
                 </div>
-                <div class="w-full flex justify-between">
-                    <p class="font-semibold">Total HT :</p>
-                    <p class="font-bold">{{ number_format($totalHT, 2) }} €</p>
-                </div>
+                
                 @php
                     $tva = $totalHT * 0.20;
-                    $totalTTC = $totalHT + $tva;
+                    $totalTTC = $totalHT - $tva;
                 @endphp
                 <div class="w-full flex justify-between">
                     <p class="font-semibold">TVA (20%) :</p>
@@ -68,7 +63,7 @@
                 </div>
                 <div class="w-full flex justify-between">
                     <p class="font-semibold">Total TTC :</p>
-                    <p class="font-bold">{{ number_format($totalTTC, 2) }} €</p>
+                    <p class="font-bold">{{ number_format($totalHT, 2) }} €</p>
                 </div>
             </div>
         </div>
@@ -76,11 +71,17 @@
             <a href="{{ route('achat') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
                 <i class="fas fa-shopping-cart mr-2"></i> Continue les achats
             </a>
+            @if(Auth::check()) 
             <a href="{{ route('checkout.address') }}" class="ml-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
                 <i class="fas fa-boxes mr-2 "></i> Passer à la validation
             </a>
+            @else
+            <a href="{{ route('login') }}" class="ml-5 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">
+                <i class="fas fa-boxes mr-2 "></i> Connectez vous pour valider la commande
+            </a>
+            @endif
         </div>
     </div>
 </div>
-@endsection
+@include('components.frontend.bas')
 

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+@include('components.frontend.haut')
 <div class="bg-gradient-to-r from-green-400 to-blue-500 h-full p-6 flex flex-col items-center justify-center">
     
     <div class="bg-white rounded-lg shadow-lg p-6">
@@ -26,5 +24,5 @@
         </form>
     </div>
 </div>
-@endsection
+@include('components.frontend.bas')
 

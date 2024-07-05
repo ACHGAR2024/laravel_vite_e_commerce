@@ -1,4 +1,6 @@
 <div x-data="{ sidebarOpen: false }" class="flex h-screen flex-col md:flex-row  bg-gray-200 dark:bg-gray-900 ">
+    
+    
     <!-- Sidebar pour les administrateurs -->
     
         <div class="rounded-b-lg md:block hidden w-52 md:w-52 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
@@ -6,8 +8,9 @@
                 <a href="/">
                     <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="BoutiqueChic">
                 </a>
-            </div>
+            </div> 
             <nav class="mt-5 flex-grow flex flex-col w-52 p-2">
+                @if (Auth::user()->role === 'Administrateur')
                 <a href="{{ route('dashboard') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300  
                     {{ Request::is('dashboard') ? 'bg-gray-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700' }}">
                     <i class="fas fa-home text-gray-500 dark:text-gray-400"></i>
@@ -25,7 +28,7 @@
                 </a>
                 <a href="#" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                     <i class="fas fa-box text-gray-500 dark:text-gray-400"></i>
-                    <span class="hidden md:inline ml-3">Gestion d'Articles</span>
+                    <span class="hidden md:inline ml-3"></span>
                 </a>
                 <div class=" flex flex-col space-y-2 pl-9">
                     <a href="{{ route('produits.index') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 
@@ -47,19 +50,38 @@
                     <i class="fas fa-list text-gray-500 dark:text-gray-400"></i>
                     <span class="hidden md:inline ml-3">Commandes Clients</span>
                 </a>
-                <a href="{{ route('panier.index') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <i class="fas fa-shopping-cart text-gray-500 dark:text-gray-400"></i>
-                    <span class="hidden md:inline ml-3">Panier</span>
-                </a>
-              
-                <a href="#" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <i class="fas fa-dollar-sign text-gray-500 dark:text-gray-400"></i>
-                    <span class="hidden md:inline ml-3">Checkout</span>
-                </a>
-                <a href="{{ route('achat') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <i class="fas fa-shopping-bag text-gray-500 dark:text-gray-400"></i>
-                    <span class="hidden md:inline ml-3">Achat</span>
-                </a>
+                
+              <!--/////////////////// Fin Menu 1 Administrateur //////////////////-->
+                
+                @else 
+
+                <!--/////////////////// Fin Menu 1 client //////////////////-->
+
+                <a href="{{ route('dashboard') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300  
+                {{ Request::is('dashboard') ? 'bg-gray-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                <i class="fas fa-home text-gray-500 dark:text-gray-400"></i>
+                <span class="hidden md:inline ml-3">Tableau de bord</span>
+            </a>
+            <a href="{{ route('profile.edit') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 
+                {{ Request::is('profile') ? 'bg-gray-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                <i class="fas fa-user text-gray-500 dark:text-gray-400"></i>
+                <span class="hidden md:inline ml-3">Profil</span>
+            </a>
+
+            <a href="{{ route('commandes.index') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-list text-gray-500 dark:text-gray-400"></i>
+                <span class="hidden md:inline ml-3">Mes Commandes</span>
+            </a>
+            <a href="#" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-heart text-gray-500 dark:text-gray-400"></i>
+                <span class="hidden md:inline ml-3">Mes Favoris</span>
+            </a>
+            <a href="#" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="fas fa-star text-gray-500 dark:text-gray-400"></i>
+                <span class="hidden md:inline ml-3">Avis</span>
+            </a>
+
+                @endif
                
                 
 
@@ -98,6 +120,7 @@
                     </a>
                 </div>
                 <nav class="mt-5 px-2 space-y-1">
+                    @if (Auth::user()->role === 'Administrateur')
                     <a href="{{ route('dashboard') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700">
                         <i class="fas fa-home text-gray-500 dark:text-gray-400"></i>
                         <span class="ml-3">Tableau de bord</span>
@@ -106,24 +129,55 @@
                         <i class="fas fa-user text-gray-500 dark:text-gray-400"></i>
                         <span class="ml-3">Profil</span>
                     </a>
-                    <div class="text-sm lg:flex-grow">
-                        <a href="{{ route('profile.listeUsers') }}" class="block mt-4 lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4">
-                            Liste des Utilisateurs
-                        </a>
-                        <!-- Autres liens de navigation -->
-                    </div>
-                    <a href="{{ route('dashboard_client') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <i class="fas fa-tag text-gray-500 dark:text-gray-400"></i>
-                        <span class="ml-3">Campagnes</span>
+                    <a href="{{ route('profile.listeUsers') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <i class="fas fa-users text-gray-500 dark:text-gray-400"></i>
+                        <span class="ml-3">Liste des Utilisateurs</span>
                     </a>
-                    <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <i class="fas fa-box text-gray-500 dark:text-gray-400"></i>
+                    <a href="{{ route('produits.index') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <i class="fas fa-list text-gray-500 dark:text-gray-400"></i>
                         <span class="ml-3">Articles</span>
                     </a>
-                    <a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <i class="fas fa-layer-group text-gray-500 dark:text-gray-400"></i>
-                        <span class="ml-3">Gammes</span>
+                    <a href="{{ route('categories.index') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <i class="fas fa-list text-gray-500 dark:text-gray-400"></i>
+                        <span class="ml-3">Catégories</span>
                     </a>
+                    
+                    <a href="{{ route('promos.index') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <i class="fas fa-tag text-gray-500 dark:text-gray-400"></i>
+                        <span class="ml-3">Campagnes Promos</span>
+                    </a>
+                    <a href="{{ route('commandes.index') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <i class="fas fa-shopping-cart text-gray-500 dark:text-gray-400"></i>
+                        <span class="ml-3">Commandes Clients</span>
+                    </a>
+@else
+
+<a href="{{ route('dashboard') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-900 dark:text-white bg-gray-100 dark:bg-gray-700">
+    <i class="fas fa-home text-gray-500 dark:text-gray-400"></i>
+    <span class="ml-3">Tableau de bord</span>
+</a>
+<a href="{{ route('profile.edit') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+    <i class="fas fa-user text-gray-500 dark:text-gray-400"></i>
+    <span class="ml-3">Profil</span>
+</a>
+<a href="{{ route('commandes.index') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+    <i class="fas fa-box text-gray-500 dark:text-gray-400"></i>
+    <span class="ml-3">Commande</span>
+</a>
+</a>
+<a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+    <i class="fas fa-heart text-gray-500 dark:text-gray-400"></i>
+    <span class="ml-3">Favoris</span>
+</a>
+</a>
+<a href="#" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+    <i class="fas fa-star text-gray-500 dark:text-gray-400"></i>
+    <span class="ml-3">Avis</span>
+</a>
+
+@endif
+
+                
                    
                 </nav>
             </div>

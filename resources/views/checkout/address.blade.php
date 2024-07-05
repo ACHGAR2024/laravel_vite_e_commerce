@@ -1,12 +1,4 @@
-@extends('layouts.app')
-
-
-@section('script')
-
-    
-@endsection
-
-@section('content')
+@include('components.frontend.haut')
 <div class="bg-gradient-to-r from-green-400 to-blue-500 items-center justify-center m-8">
     <div class="bg-white rounded-lg shadow-lg p-6">
         
@@ -43,4 +35,4 @@
         </div>
     </div>
 </div>
-@endsection
+@include('components.frontend.bas')
