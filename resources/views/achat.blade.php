@@ -19,7 +19,7 @@
                 <div class="bg-white shadow-md rounded-md overflow-hidden">
                     <a href="{{ route('produits.show', $produit->id) }}">
                         @if($produit->firstImage)
-                            <img src="{{ asset('storage/' . $produit->firstImage->nom_image) }}" alt="{{ $produit->nom }}" class="w-full h-48 object-cover">
+                            <img src="{{ asset('storage/' . $produit->firstImage->nom_image) }}" alt="{{ $produit->nom }}" class="w-full h-96 object-cover">
                         @else
                             <img src="{{ asset('storage/default.jpg') }}" alt="{{ $produit->nom }}" class="w-full h-48 object-cover">
                         @endif

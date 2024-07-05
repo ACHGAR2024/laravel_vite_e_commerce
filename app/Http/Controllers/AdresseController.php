@@ -49,7 +49,12 @@ class AdresseController extends Controller
     }
 
 
-
+    public function showAddressForm()
+    {
+        $adresses = Adresse::where('user_id', auth()->user()->id)->get();
+        return view('checkout.address', compact('adresses'));
+    }
+    
 
 
 

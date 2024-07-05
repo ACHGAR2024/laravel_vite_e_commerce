@@ -54,6 +54,12 @@ class CommandeController extends Controller
         $commande = Commande::with('produits', 'user')->findOrFail($id); // Mettre à jour pour utiliser user
         return view('commandes.show', compact('commande'));
     }
+    public function facture($id)
+{
+    $commande = Commande::with('produits', 'user')->findOrFail($id);
+    return view('commandes.facture', compact('commande'));
+}
+
 
     public function edit($id)
     {

@@ -25,6 +25,10 @@
                 <td class="px-4 py-2">{{ $commande->user->name }}</td> <!-- Mettre à jour pour utiliser user -->
                 <td class="px-4 py-2">{{ $commande->created_at }}</td>
                 <td class="px-4 py-2 flex justify-center">
+                    <a href="{{ route('commandes.facture', $commande->id) }}" class="mx-2 bg-gray-200 text-gray-800 hover:bg-gray-300 hover:text-gray-900 py-1 px-2 rounded-lg">
+                        <i class="fas fa-file"></i> Voir Facture
+                    </a>
+                    
                     <a href="{{ route('commandes.show', $commande->id) }}" class="mx-2 bg-gray-200 text-gray-800 hover:bg-gray-300 hover:text-gray-900 py-1 px-2 rounded-lg"><i class="fas fa-eye"></i></a>
                     <a href="#" class="mx-2 bg-green-200 text-green-800 hover:bg-green-300 hover:text-green-900 py-1 px-2 rounded-lg"><i class="fas fa-question"></i> Problème <i class="fas fa-edit"></i></a>
                     <form action="{{ route('commandes.destroy', $commande->id) }}" method="POST" style="display:inline;">

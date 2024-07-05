@@ -11,6 +11,10 @@ class Commande extends Model
 
     protected $table = 'commandes';
 
+    protected $fillable = [
+        'id_client', 'total', 'statut', 'id_adresse'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id_client');
@@ -20,4 +24,10 @@ class Commande extends Model
     {
         return $this->belongsToMany(Produit::class, 'contenir', 'id_commande', 'id_produit')->withPivot('quantite', 'prix');
     }
+
+    public function adresse()
+    {
+        return $this->belongsTo(Adresse::class, 'id_adresse');
+    }
+
 }

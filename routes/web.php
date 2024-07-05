@@ -81,6 +81,11 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::get('/panier', [PanierController::class, 'index'])->name('panier.index');
 Route::get('/produits', [ProduitController::class, 'index'])->name('produits.index');
 
+// imprimer une commande
+Route::get('/commandes/{id}/facture', [CommandeController::class, 'facture'])->name('commandes.facture');
+
+
+
 
 
 
