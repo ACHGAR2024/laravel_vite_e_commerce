@@ -30,7 +30,18 @@ class Produit extends Model
     }
 
     public function images()
+{
+    return $this->hasMany(ProductImage::class, 'produit_id');
+}
+
+public function firstImage()
+{
+    return $this->hasOne(ProductImage::class, 'produit_id')->oldestOfMany();
+}
+
+public function commandes()
     {
-        return $this->hasMany(Image::class);
+        return $this->belongsToMany(Commande::class, 'contenir', 'id_produit', 'id_commande')->withPivot('quantite', 'prix');
     }
+
 }

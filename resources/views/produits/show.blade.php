@@ -12,6 +12,18 @@
             </h1>
         </div>
         <div class="p-8 space-y-6">
+            @if ($produit->images->count())
+            <div>
+                <label class="block text-sm font-medium text-gray-700">
+                    <i class="fas fa-images mr-2"></i>Images
+                </label>
+                <div class="mt-1 flex flex-wrap gap-4">
+                    @foreach ($produit->images as $image)
+                        <img src="{{ asset('storage/' . $image->nom_image) }}" alt="{{ $produit->nom }}" class="w-32 h-32 object-cover rounded-md">
+                    @endforeach
+                </div>
+            </div>
+            @endif
             <div>
                 <label class="block text-sm font-medium text-gray-700">
                     <i class="fas fa-tag mr-2"></i>Nom
@@ -42,18 +54,7 @@
                 </label>
                 <p class="mt-1 text-lg text-gray-900">{{ $produit->category->nom }}</p>
             </div>
-            @if ($produit->images->count())
-            <div>
-                <label class="block text-sm font-medium text-gray-700">
-                    <i class="fas fa-images mr-2"></i>Images
-                </label>
-                <div class="mt-1 flex flex-wrap gap-4">
-                    @foreach ($produit->images as $image)
-                        <img src="{{ asset('storage/' . $image->nom_image) }}" alt="{{ $produit->nom }}" class="w-32 h-32 object-cover rounded-md">
-                    @endforeach
-                </div>
-            </div>
-            @endif
+            
             <div>
                 <a href="{{ route('produits.edit', $produit) }}" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                     <i class="fas fa-edit mr-2"></i>Modifier le produit

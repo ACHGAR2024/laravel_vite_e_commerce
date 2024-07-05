@@ -45,7 +45,7 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ Str::limit($produit->description, 30) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $produit->prix }} €</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $produit->stock }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $produit->category->nom }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><!--//$produit->category->id --></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <a href="{{ route('produits.edit', $produit) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">
                                     <i class="fas fa-edit"></i> 

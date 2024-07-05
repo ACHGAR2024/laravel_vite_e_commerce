@@ -10,10 +10,17 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\CommandeController;
+use App\Http\Controllers\PanierController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/achat', [ProduitController::class, 'achat'])->name('achat');
+
+
 
 Route::get('/register', [RegisteredUserController::class, 'create'])
     ->middleware('guest')
@@ -47,6 +54,35 @@ Route::post('produits/{produit}/photos', [PhotoController::class, 'store'])->nam
 Route::delete('produits/{produit}/photos/{photo}', [PhotoController::class, 'destroy'])->name('photos.destroy');
 
 Route::resource('promos', PromoController::class);
+
+
+Route::resource('commandes', CommandeController::class);
+
+Route::get('panier', [PanierController::class, 'index'])->name('panier.index');
+Route::post('panier/ajouter', [PanierController::class, 'add'])->name('panier.add');
+Route::patch('panier/mettre-a-jour', [PanierController::class, 'update'])->name('panier.update');
+Route::delete('panier/supprimer', [PanierController::class, 'remove'])->name('panier.remove');
+
+Route::post('/panier/ajouter/{produit}', [PanierController::class, 'ajouter'])->name('panier.ajouter');
+
+
+
+
+Route::get('checkout/adresse', [CheckoutController::class, 'showAddressForm'])->name('checkout.address');
+Route::post('checkout/adresse', [CheckoutController::class, 'storeAddress'])->name('checkout.address.store');
+Route::get('checkout/livraison', [CheckoutController::class, 'showShippingForm'])->name('checkout.shipping');
+Route::post('checkout/livraison', [CheckoutController::class, 'storeShipping'])->name('checkout.shipping.store');
+Route::get('checkout/paiement', [CheckoutController::class, 'showPaymentForm'])->name('checkout.payment');
+Route::post('checkout/paiement', [CheckoutController::class, 'storePayment'])->name('checkout.payment.store');
+
+// Exemple de routes pour les différentes pages
+Route::get('/commande', [CommandeController::class, 'index'])->name('commande.index');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::get('/panier', [PanierController::class, 'index'])->name('panier.index');
+Route::get('/produits', [ProduitController::class, 'index'])->name('produits.index');
+
+
+
 
 Route::middleware('auth')->group(function () {
 

@@ -26,4 +26,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Adresse::class);
     }
+
+    public function commandes()
+    {
+        return $this->hasMany(Commande::class, 'id_client');
+    }
 }

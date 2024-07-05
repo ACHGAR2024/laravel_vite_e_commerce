@@ -88,4 +88,27 @@ class ProduitController extends Controller
         $produit->delete();
         return redirect()->route('produits.index');
     }
+    // App\Http\Controllers\ProduitController.php
+
+public function achat(Request $request)
+{
+    $categories = Categorie::all();
+    $search = $request->input('search');
+
+    if ($search) {
+        $produits = Produit::with(['firstImage'])->where('nom', 'like', "%{$search}%")->paginate(12);
+    } else {
+        $produits = Produit::with(['firstImage'])->paginate(12);
+    }
+
+    return view('achat', compact('produits', 'categories'));
 }
+
+public function show($id)
+    {
+        $produit = Produit::with('category', 'images')->findOrFail($id);
+        return view('produits.show', compact('produit'));
+    }
+      
+    }
+

@@ -43,10 +43,27 @@
                     <i class="fas fa-tag text-gray-500 dark:text-gray-400"></i>
                     <span class="hidden md:inline ml-3">Campagnes Promos</span>
                 </a>
-                <a href="#" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <i class="fas fa-layer-group text-gray-500 dark:text-gray-400"></i>
+                <a href="{{ route('commandes.index') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <i class="fas fa-list text-gray-500 dark:text-gray-400"></i>
                     <span class="hidden md:inline ml-3">Commandes Clients</span>
                 </a>
+                <a href="{{ route('panier.index') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <i class="fas fa-shopping-cart text-gray-500 dark:text-gray-400"></i>
+                    <span class="hidden md:inline ml-3">Panier</span>
+                </a>
+              
+                <a href="#" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <i class="fas fa-dollar-sign text-gray-500 dark:text-gray-400"></i>
+                    <span class="hidden md:inline ml-3">Checkout</span>
+                </a>
+                <a href="{{ route('achat') }}" class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <i class="fas fa-shopping-bag text-gray-500 dark:text-gray-400"></i>
+                    <span class="hidden md:inline ml-3">Achat</span>
+                </a>
+               
+                
+
+
             </nav>
             
         </div>
@@ -107,6 +124,7 @@
                         <i class="fas fa-layer-group text-gray-500 dark:text-gray-400"></i>
                         <span class="ml-3">Gammes</span>
                     </a>
+                   
                 </nav>
             </div>
         </div>
