@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Commande; // Importer le modèle Commande
 use App\Models\Campaign;
-use App\Models\Product;
+use App\Models\Produit;
 use App\Models\Collection;
 
 class StatController extends Controller

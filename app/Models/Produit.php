@@ -44,4 +44,14 @@ public function commandes()
         return $this->belongsToMany(Commande::class, 'contenir', 'id_produit', 'id_commande')->withPivot('quantite', 'prix');
     }
 
+    public function jaimes()
+    {
+        return $this->hasMany(Jaime::class, 'produit_id');
+    }
+
+    public function avis()
+    {
+        return $this->hasMany(Avis::class, 'id_products');
+    }
+
 }

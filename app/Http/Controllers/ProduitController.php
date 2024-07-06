@@ -106,9 +106,9 @@ public function achat(Request $request)
 
 public function show($id)
     {
-        $produit = Produit::with('category', 'images')->findOrFail($id);
+        $produit = Produit::findOrFail($id);
         return view('produits.show', compact('produit'));
+        
     }
       
     }
-
