@@ -21,22 +21,8 @@ class CampaignController extends Controller
 
         return view('campaigns.create', compact('promos'));
     }
-    /**
-     * Show the form for creating a new campaign.
-     *
-     * @return \Illuminate\View\View
-     */
-    
-
-    /**
-     * Store a newly created campaign in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
-        
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',

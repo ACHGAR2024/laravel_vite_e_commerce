@@ -55,7 +55,13 @@
                     class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 
                 {{ Request::is('promos') ? 'bg-gray-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700' }}">
                     <i class="fas fa-tag text-gray-500 dark:text-gray-400"></i>
-                    <span class="hidden md:inline ml-3">Campagnes Promos</span>
+                    <span class="hidden md:inline ml-3">Promos</span>
+                </a>
+                <a href="{{ route('campaigns.index') }}"
+                    class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 
+                {{ Request::is('campaignes') ? 'bg-gray-700' : 'hover:bg-gray-50 dark:hover:bg-gray-700' }}">
+                    <i class="fas fa-tag text-gray-500 dark:text-gray-400"></i>
+                    <span class="hidden md:inline ml-3">Campagnes</span>
                 </a>
                 <a href="{{ route('commandes.index') }}"
                     class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
@@ -166,7 +172,12 @@
                         <a href="{{ route('promos.index') }}"
                             class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                             <i class="fas fa-tag text-gray-500 dark:text-gray-400"></i>
-                            <span class="ml-3">Campagnes Promos</span>
+                            <span class="ml-3">Promos</span>
+                        </a>
+                        <a href="{{ route('campaigns.index') }}"
+                            class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <i class="fas fa-tag text-gray-500 dark:text-gray-400"></i>
+                            <span class="ml-3">Campagnes </span>
                         </a>
                         <a href="{{ route('commandes.index') }}"
                             class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">

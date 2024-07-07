@@ -8,13 +8,16 @@ namespace App\Http\Controllers;
 use App\Models\Produit;
 use App\Models\Categorie;
 use App\Models\Image;
+use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 
 class ProduitController extends Controller
 {
     public function index()
     {
+        
         $produits = Produit::all();
         return view('produits.index', compact('produits'));
     }
@@ -106,8 +109,14 @@ public function achat(Request $request)
 
 public function show($id)
     {
+
+        $campaigns = Campaign::all();
+        
+        Session::put('campaigns', $campaigns);
+      
+        $categories = Categorie::all();
         $produit = Produit::findOrFail($id);
-        return view('produits.show', compact('produit'));
+        return view('produits.show', compact('produit', 'categories', 'campaigns'));
         
     }
       

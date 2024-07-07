@@ -54,11 +54,19 @@
             <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 @foreach ($featuredProducts as $produit)
                     <div class="group relative transform transition duration-500 hover:scale-105">
+
+
                         <div
-                            class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                            <img src="{{ asset('storage/' . $produit->images->first()->nom_image) }}"
-                                alt="{{ $produit->nom }}"
-                                class="w-full h-full object-center object-cover lg:w-full lg:h-full">
+                            class="w-full h-60 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75">
+                            <a href="{{ route('produits.show', $produit->id) }}" class="block relative overflow-hidden">
+                                <img src="{{ asset('storage/' . $produit->images->first()->nom_image) }}"
+                                    alt="{{ $produit->nom }}" class=" w-full h-full object-center object-cover ">
+                                <div
+                                    class="absolute inset-0 bg-black bg-opacity-25 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <span class="text-white text-lg font-semibold">Voir détails</span>
+                                </div>
+                            </a>
+
                         </div>
                         <div class="mt-4 flex justify-between">
                             <div>
@@ -88,25 +96,28 @@
 
     <!-- Section Promotions -->
     <section id="promotions" class="py-12 bg-gray-50 dark:bg-gray-700">
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">Promotions en cours</h2>
             <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                 @foreach ($promotions as $promo)
-                    <div
-                        class="group relative bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition duration-500 hover:scale-105">
-                        <div class="w-full h-60 bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75">
-                            <img src="{{ asset('storage/' . $promo->image) }}" alt="{{ $promo->nom_promo }}"
-                                class="w-full h-full object-center object-cover">
+                    @if ($promo->nom_promo == implode('', $campaigns->pluck('name')->toArray()) or $promo->nom_promo == 'Livraison Gratuite')
+                        <div
+                            class="group relative bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition duration-500 hover:scale-105">
+                            <div class="w-full h-60 bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75">
+                                <img src="{{ asset('storage/' . $promo->image) }}" alt="{{ $promo->nom_promo }}"
+                                    class="w-full h-full object-center object-cover">
+                            </div>
+                            <div class="p-4">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $promo->nom_promo }}
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Promotion valide jusqu'au
+                                    {{ $promo->date_fin }}</p>
+                                <p class="mt-2 text-xl font-bold text-indigo-600 dark:text-indigo-400">
+                                    {{ $promo->reduction }}% de réduction</p>
+                            </div>
                         </div>
-                        <div class="p-4">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $promo->nom_promo }}
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Promotion valide jusqu'au
-                                {{ $promo->date_fin }}</p>
-                            <p class="mt-2 text-xl font-bold text-indigo-600 dark:text-indigo-400">
-                                {{ $promo->reduction }}% de réduction</p>
-                        </div>
-                    </div>
+                    @endif
                 @endforeach
             </div>
         </div>
@@ -120,16 +131,25 @@
                 @foreach ($popularProducts as $produit)
                     <div
                         class="group relative bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform transition duration-500 hover:scale-105">
-                        <div class="w-full h-80 bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75 ">
-                            @if ($produit->images->count())
-                                <img src="{{ asset('storage/' . $produit->images->first()->nom_image) }}"
-                                    alt="{{ $produit->nom }}" class="w-full h-full object-center object-cover">
-                            @endif
-                        </div>
+                        <a href="{{ route('produits.show', $produit->id) }}" class="block relative overflow-hidden">
+                            <div class="w-full h-80 bg-gray-200 aspect-w-1 aspect-h-1 group-hover:opacity-75 ">
+                                @if ($produit->images->count())
+                                    <img src="{{ asset('storage/' . $produit->images->first()->nom_image) }}"
+                                        alt="{{ $produit->nom }}" class="w-full h-full object-center object-cover">
+                                @endif
+                                <div
+                                    class="absolute inset-0 bg-black bg-opacity-25 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <span class="text-white text-lg font-semibold">Voir détails</span>
+                                </div>
+                            </div>
+                        </a>
                         <div class="p-4">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $produit->nom }}</h3>
-                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $produit->description }}</p>
-                            <p class="mt-2 text-xl font-bold text-indigo-600 dark:text-indigo-400">{{ $produit->prix }}
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ $produit->nom }}
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $produit->description }}
+                            </p>
+                            <p class="mt-2 text-xl font-bold text-indigo-600 dark:text-indigo-400">
+                                {{ $produit->prix }}
                                 €</p>
                             <form action="{{ route('panier.ajouter', $produit->id) }}" method="POST">
                                 @csrf
@@ -141,6 +161,11 @@
                         </div>
                     </div>
                 @endforeach
+
+
+
+
+
             </div>
         </div>
     </section>

@@ -24,7 +24,9 @@
                             @mouseleave="showZoom = false">
                         <div
                             class="absolute top-0 right-0 bg-red-500 text-white px-3 py-5 rounded-b-lg text-lg font-bold">
-                            Soldes 50 %
+                            Soldes @foreach ($campaigns as $campaign)
+                                {{ $campaign->reduction }}
+                            @endforeach %
                         </div>
                     @endforeach
                     <div x-show="showZoom" class="absolute top-0 left-0 w-full h-full bg-no-repeat pointer-events-none"
@@ -65,7 +67,16 @@
                             <i class="fas fa-euro-sign mr-2"></i>Prix
                         </label>
                         <p class="mt-1 text-3xl font-bold text-red-600 line-through">{{ $produit->prix }} €</p>
-                        <p class="mt-1 text-3xl font-bold text-green-600">{{ $produit->prix - $produit->prix * 0.5 }} €
+                        @php
+                            $reduction = 0;
+                        @endphp
+                        @foreach ($campaigns as $campaign)
+                            @php
+                                $reduction += $campaign->reduction;
+                            @endphp
+                        @endforeach
+                        <p class="mt-1 text-3xl font-bold text-green-600">
+                            {{ $produit->prix - ($produit->prix * $reduction) / 100 }} €
                         </p>
                     </div>
                     <form action="{{ route('panier.ajouter', $produit->id) }}" method="POST">
@@ -77,6 +88,18 @@
                     </form>
                 </div>
                 <div>
+
+                    @foreach ($campaigns as $campaign)
+                        <div class="flex justify-between">
+                            <div class="flex items-center space-x-2 text-green-600 font-semibold">
+                                <i class="fas fa-euro-sign"></i> Promo :
+                                <span>{{ $campaign->name }} :</span>
+                                <span class="text-lg line-through">-{{ $campaign->reduction }}%</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div>
                     <label class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-cubes mr-2"></i>Stock
                     </label>
@@ -86,7 +109,11 @@
                     <label class="block text-sm font-medium text-gray-700">
                         <i class="fas fa-folder mr-2"></i>Catégorie
                     </label>
-                    <p class="mt-1 text-lg text-gray-900">{{ $produit->category->nom }}</p>
+                    @if ($produit->category)
+                        <p class="mt-1 text-lg text-gray-900">{{ $produit->category->nom }}</p>
+                    @else
+                        <p class="mt-1 text-lg text-gray-900">Aucune catégorie</p>
+                    @endif
                 </div>
                 <!-- Section Liker -->
                 <!-- Jaime/Dislike buttons -->

@@ -72,56 +72,68 @@ class CheckoutController extends Controller
     }
 
     public function storePayment(Request $request)
-{
-    $request->validate([
-        'methode_paiement' => 'required|string|max:255',
-        'statut_paiement' => 'required|string|max:255',
-    ]);
-
-    $adresse = Session::get('adresse');
-    $adresseModel = Adresse::where([
-        'adresse' => $adresse['adresse'],
-        'ville' => $adresse['ville'],
-        'code_postal' => $adresse['code_postal'],
-        'pays' => $adresse['pays'],
-    ])->first();
-
-    if (!$adresseModel) {
-        $adresseModel = new Adresse();
-        $adresseModel->adresse = $adresse['adresse'];
-        $adresseModel->ville = $adresse['ville'];
-        $adresseModel->code_postal = $adresse['code_postal'];
-        $adresseModel->pays = $adresse['pays'];
-        $adresseModel->user_id = auth()->user()->id;
-        $adresseModel->save();
-    }
-
-    $commande = new Commande();
-    $commande->id_client = auth()->user()->id;
-    $commande->total = collect(Session::get('panier'))->sum(function ($item) {
-        return $item['quantite'] * $item['prix'];
-    });
-    $commande->statut = 'en cours';
-    $commande->id_adresse = $adresseModel->id;
-    $commande->save();
-
-    foreach (Session::get('panier') as $id => $details) {
-        $commande->produits()->attach($id, [
-            'quantite' => $details['quantite'],
-            'prix' => $details['prix']
+    {
+        $request->validate([
+            'methode_paiement' => 'required|string|max:255',
+            'statut_paiement' => 'required|string|max:255',
         ]);
+
+        $adresse = Session::get('adresse');
+        $adresseModel = Adresse::where([
+            'adresse' => $adresse['adresse'],
+            'ville' => $adresse['ville'],
+            'code_postal' => $adresse['code_postal'],
+            'pays' => $adresse['pays'],
+        ])->first();
+
+        if (!$adresseModel) {
+            $adresseModel = new Adresse();
+            $adresseModel->adresse = $adresse['adresse'];
+            $adresseModel->ville = $adresse['ville'];
+            $adresseModel->code_postal = $adresse['code_postal'];
+            $adresseModel->pays = $adresse['pays'];
+            $adresseModel->user_id = auth()->user()->id;
+            $adresseModel->save();
+        }
+
+        // Calcul du total TTC avec réduction depuis le panier
+        $totalHT = collect(Session::get('panier'))->sum(function ($item) {
+            return $item['quantite'] * $item['prix'];
+        });
+
+        $reduction_total = 0; // Initialisation du total de réduction
+        foreach (Session::get('campaigns') as $campaign) {
+            $reduction_total += $campaign->reduction;
+        }
+
+        $tva = $totalHT * 0.2; // Calcul de la TVA
+        $totalTTC = $totalHT  - ($totalHT * $reduction_total / 100); // Calcul du total TTC
+
+        $commande = new Commande();
+        $commande->id_client = auth()->user()->id;
+        $commande->total = $totalTTC; // Utilisation du total TTC calculé
+        $commande->statut = 'en cours';
+        $commande->id_adresse = $adresseModel->id;
+        $commande->save();
+
+        foreach (Session::get('panier') as $id => $details) {
+            $commande->produits()->attach($id, [
+                'quantite' => $details['quantite'],
+                'prix' => $details['prix']
+            ]);
+        }
+
+        $paiement = new Paiement();
+        $paiement->id_commande = $commande->id;
+        $paiement->montant = $totalTTC; // Utilisation du total TTC calculé
+        $paiement->methode_paiement = $request->methode_paiement;
+        $paiement->statut_paiement = $request->statut_paiement;
+        $paiement->save();
+
+        Session::forget(['panier', 'adresse', 'mode_livraison']);
+
+        return redirect()->route('commandes.index')->with('success', 'Commande validée avec succès.');
     }
-
-    $paiement = new Paiement();
-    $paiement->id_commande = $commande->id;
-    $paiement->montant = $commande->total;
-    $paiement->methode_paiement = $request->methode_paiement;
-    $paiement->statut_paiement = $request->statut_paiement;
-    $paiement->save();
-
-    Session::forget(['panier', 'adresse', 'mode_livraison']);
-
-    return redirect()->route('commandes.index')->with('success', 'Commande validée avec succès.');
-}
+    
 
 }

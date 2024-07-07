@@ -12,6 +12,10 @@ class Campaign extends Model
     protected $table = 'campaigns';
 
     protected $fillable = [
-        'name', 'description', 'start_date', 'end_date'
+        'name',
+        'description',
+        'start_date',
+        'end_date',
+        'reduction',
     ];
 }

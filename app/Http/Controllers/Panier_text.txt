@@ -4,33 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produit;
-use App\Models\Campaign;
 use Illuminate\Support\Facades\Session;
 
 class PanierController extends Controller
 {
     public function index()
     {
-        $campaigns = Campaign::all();
         $panier = Session::get('panier', []);
-        Session::put('campaigns', $campaigns); // Stocker les campagnes dans la session
-
-        return view('panier.index', compact('panier', 'campaigns'));
+        return view('panier.index', compact('panier'));
     }
+
     public function add(Request $request)
     {
-        
         $produit = Produit::find($request->id);
         $panier = Session::get('panier', []);
         $panier[$produit->id] = [
             "nom" => $produit->nom,
             "quantite" => $request->quantite,
             "prix" => $produit->prix,
-            "image" => $produit->image,
-            
+            "image" => $produit->image
         ];
         Session::put('panier', $panier);
-        
         return redirect()->back()->with('success', 'Produit ajouté au panier!');
     }
 

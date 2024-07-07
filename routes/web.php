@@ -50,9 +50,17 @@ Route::delete('panier/supprimer', [PanierController::class, 'remove'])->name('pa
 Route::post('/panier/ajouter/{produit}', [PanierController::class, 'ajouter'])->name('panier.ajouter');
 Route::get('/panier', [PanierController::class, 'index'])->name('panier.index');
 
+Route::post('/panier/promo', [PanierController::class, 'applyPromo'])->name('panier.applyPromo');
+
+
+
 Route::post('/produit/{produit}/jaime', [ProductJaimeController::class, 'jaime'])->name('produit.jaime');
 Route::post('/produit/{produit}/dislike', [ProductJaimeController::class, 'dislike'])->name('produit.dislike');
 
+// routes pour les avis
+Route::post('/produits/{produit}/avis', [AvisController::class, 'store'])->middleware('auth')->name('avis.store');
+
+Route::resource('produits', ProduitController::class);
 
 
 // AUTORISATION (utilisation de Route   Après connexion ////
@@ -60,10 +68,7 @@ Route::post('/produit/{produit}/dislike', [ProductJaimeController::class, 'disli
 Route::middleware('auth')->group(function () {
 
             
-            // routes pour les avis
-            // routes/web.php
-            Route::post('/produits/{produit}/avis', [AvisController::class, 'store'])->middleware('auth')->name('avis.store');
-
+            
             
 
             // routes pour les campagnes
@@ -113,7 +118,7 @@ Route::middleware('auth')->group(function () {
 
             Route::resource('categories', CategorieController::class);
 
-            Route::resource('produits', ProduitController::class);
+            
 
             Route::get('produits/{produit}/photos', [PhotoController::class, 'index'])->name('photos.index');
             Route::post('produits/{produit}/photos', [PhotoController::class, 'store'])->name('photos.store');

@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Commande;
 use App\Models\Produit;
-use App\Models\User; // Mettre à jour cette ligne pour utiliser le modèle User
+use App\Models\User;
+use App\Models\Campaign; // Ajouter cette ligne pour importer le modèle Campaign
 use Illuminate\Http\Request;
 
 class CommandeController extends Controller
 {
     public function index()
     {
-        $commandes = Commande::with('user')->get(); // Mettre à jour pour utiliser user
+        $commandes = Commande::with('user')->get();
         return view('commandes.index', compact('commandes'));
     }
 
@@ -24,7 +25,7 @@ class CommandeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_client' => 'required|exists:users,id', // Mettre à jour pour utiliser users
+            'id_client' => 'required|exists:users,id',
             'produits' => 'required|array',
             'produits.*.id' => 'required|exists:produits,id',
             'produits.*.quantite' => 'required|numeric|min:1',
@@ -46,18 +47,45 @@ class CommandeController extends Controller
             ]);
         }
 
+        // Calcul de la réduction totale
+        $campaigns = Session::get('campaigns', []);
+        $reductionshow = 0;
+
+        foreach ($campaigns as $campaign) {
+            $reductionshow += $campaign->reduction;
+        }
+
         return redirect()->route('commandes.index')->with('success', 'Commande créée avec succès.');
     }
 
     public function show($id)
     {
-        $commande = Commande::with('produits', 'user')->findOrFail($id); // Mettre à jour pour utiliser user
-        return view('commandes.show', compact('commande'));
+        $commande = Commande::with('produits', 'user', 'adresse')->findOrFail($id);
+
+        // Calculer la réduction totale
+        $campaigns = Campaign::all(); // Supposons que vous récupérez toutes les campagnes
+        $reductionshow = 0;
+
+        foreach ($campaigns as $campaign) {
+            $reductionshow += $campaign->reduction;
+        }
+
+        return view('commandes.show', compact('commande', 'reductionshow'));
     }
+
     public function facture($id)
 {
-    $commande = Commande::with('produits', 'user')->findOrFail($id);
-    return view('commandes.facture', compact('commande'));
+    $commande = Commande::with('produits', 'user', 'adresse')->findOrFail($id);
+
+    // Calculer la réduction totale
+    $campaigns = Campaign::all();
+    $reductionshow = 0;
+
+    foreach ($campaigns as $campaign) {
+        $reductionshow += $campaign->reduction;
+    }
+
+    return view('commandes.facture', compact('commande', 'reductionshow'));
 }
 
 
@@ -71,7 +99,7 @@ class CommandeController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_client' => 'required|exists:users,id', // Mettre à jour pour utiliser users
+            'id_client' => 'required|exists:users,id',
             'produits' => 'required|array',
             'produits.*.id' => 'required|exists:produits,id',
             'produits.*.quantite' => 'required|numeric|min:1',

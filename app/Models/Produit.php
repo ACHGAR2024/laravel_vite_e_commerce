@@ -54,4 +54,6 @@ public function commandes()
         return $this->hasMany(Avis::class, 'id_products');
     }
 
+   
+
 }
