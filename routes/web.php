@@ -20,10 +20,18 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\AvisController;
 use App\Http\Controllers\ProductJaimeController;
 use App\Http\Controllers\Home_col_compController;
+use App\Http\Controllers\UserController;
+
 
 
 Route::get('/', function () {
     return view('home');
+});
+
+
+
+Route::get('/en_savoir_plus', function () {
+    return view('en_savoir_plus');
 });
 
 Route::get('/home_col_comp', [Home_col_compController::class, 'index'])->name('home_col_comp');
@@ -53,12 +61,18 @@ Route::get('/panier', [PanierController::class, 'index'])->name('panier.index');
 Route::post('/panier/promo', [PanierController::class, 'applyPromo'])->name('panier.applyPromo');
 
 
-
+// routes pour les jaime
 Route::post('/produit/{produit}/jaime', [ProductJaimeController::class, 'jaime'])->name('produit.jaime');
 Route::post('/produit/{produit}/dislike', [ProductJaimeController::class, 'dislike'])->name('produit.dislike');
+Route::get('/mes_favoris', [ProductJaimeController::class, 'likedProducts'])->name('produits.aimés');
 
-// routes pour les avis
-Route::post('/produits/{produit}/avis', [AvisController::class, 'store'])->middleware('auth')->name('avis.store');
+
+// Routes pour l'avis
+Route::get('avis/create/{produitId}', [AvisController::class, 'create'])->name('avis.create.form');
+Route::post('avis/store/{produitId}', [AvisController::class, 'store'])->name('avis.store.product');
+Route::resource('avis', AvisController::class)->except(['store']);
+
+
 
 Route::resource('produits', ProduitController::class);
 
@@ -68,7 +82,9 @@ Route::resource('produits', ProduitController::class);
 Route::middleware('auth')->group(function () {
 
             
-            
+    Route::post('/utilisateur/{id}/bannir', [UserController::class, 'bannir'])->name('utilisateur.bannir');
+
+
             
 
             // routes pour les campagnes
@@ -76,14 +92,14 @@ Route::middleware('auth')->group(function () {
             // routes pour les collections
             Route::resource('collections', CollectionController::class);
 
-
+      
             // les statistiques 
             Route::get('/stats', [StatController::class, 'index'])->name('stats.index');
 
             Route::get('/produits', [ProduitController::class, 'index'])->name('produits.index');
 
             
-            Route::post('produits/avis', [ProduitController::class, 'avisStore'])->name('produits.avis');   
+             
 
             
             Route::get('/commande', [CommandeController::class, 'index'])->name('commande.index');

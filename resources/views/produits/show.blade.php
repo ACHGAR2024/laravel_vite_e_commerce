@@ -143,7 +143,7 @@
             <!-- resources/views/produits/show.blade.php -->
             <div class="space-y-6">
 
-                <form action="{{ route('avis.store', $produit->id) }}" method="POST" class="space-y-4">
+                <form action="{{ route('avis.store.product', $produit->id) }}" method="POST" class="space-y-4">
                     @csrf
 
                     <div>

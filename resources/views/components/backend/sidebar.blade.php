@@ -68,6 +68,11 @@
                     <i class="fas fa-list text-gray-500 dark:text-gray-400"></i>
                     <span class="hidden md:inline ml-3">Commandes Clients</span>
                 </a>
+                <a href="{{ route('avis.index') }}"
+                    class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <i class="fas fa-star text-gray-500 dark:text-gray-400"></i>
+                    <span class="hidden md:inline ml-3">Avis</span>
+                </a>
 
                 <!--/////////////////// Fin Menu 1 Administrateur //////////////////-->
             @else
@@ -91,12 +96,12 @@
                     <i class="fas fa-list text-gray-500 dark:text-gray-400"></i>
                     <span class="hidden md:inline ml-3">Mes Commandes</span>
                 </a>
-                <a href="#"
+                <a href="{{ url('mes_favoris') }}"
                     class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                     <i class="fas fa-heart text-gray-500 dark:text-gray-400"></i>
                     <span class="hidden md:inline ml-3">Mes Favoris</span>
                 </a>
-                <a href="#"
+                <a href="{{ url('avis') }}"
                     class="group flex items-center justify-center md:justify-start px-2 py-2 text-sm font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                     <i class="fas fa-star text-gray-500 dark:text-gray-400"></i>
                     <span class="hidden md:inline ml-3">Avis</span>
@@ -201,13 +206,13 @@
                             <span class="ml-3">Commande</span>
                         </a>
                         </a>
-                        <a href="#"
+                        <a href="{{ url('mes_favoris') }}"
                             class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                             <i class="fas fa-heart text-gray-500 dark:text-gray-400"></i>
                             <span class="ml-3">Favoris</span>
                         </a>
                         </a>
-                        <a href="#"
+                        <a href="{{ url('avis') }}"
                             class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                             <i class="fas fa-star text-gray-500 dark:text-gray-400"></i>
                             <span class="ml-3">Avis</span>

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+ 
 
 class User extends Authenticatable
 {
@@ -30,5 +31,10 @@ class User extends Authenticatable
     public function commandes()
     {
         return $this->hasMany(Commande::class, 'id_client');
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'Administrateur';
     }
 }
